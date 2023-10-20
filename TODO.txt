@@ -1,0 +1,5 @@
+TODO: Test todo app.
+TODO: Make a Tetris clone in Rust using crossterm.
+TODO: Do the dishes. 
+DONE: Finish todo app.
+DONE: Implement a forward proxy in Node.js.
