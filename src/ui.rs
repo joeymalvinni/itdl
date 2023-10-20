@@ -56,6 +56,10 @@ impl UI {
         self.current_tab = tab;
     }
 
+    pub fn set_position(&mut self, pos: usize) {
+        self.position = pos;
+    }
+
     pub fn render_tabs(&mut self) {
         execute!(self.stdout, MoveTo(0, 1), terminal::Clear(terminal::ClearType::FromCursorUp)).unwrap();
 
