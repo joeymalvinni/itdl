@@ -1,14 +1,19 @@
-use std::io::{Stdout, stdout};
+use std::io::{stdout, Stdout};
 
-use crossterm::{terminal, cursor::MoveTo, execute, style::{Print, ResetColor, SetBackgroundColor, Color, SetForegroundColor}};
+use crossterm::{
+    cursor::MoveTo,
+    execute,
+    style::{Color, Print, ResetColor, SetBackgroundColor, SetForegroundColor},
+    terminal,
+};
 
 pub enum Input {
     Down,
-    Up, 
+    Up,
     Cycle,
     Edit,
     Insert,
-    Append
+    Append,
 }
 
 #[derive(PartialEq)]
@@ -31,7 +36,7 @@ impl Tabs {
 
 pub struct UI {
     pub current_tab: Tabs,
-    position: usize, // current selected element
+    pub position: usize, // current selected element
     stdout: Stdout,
 }
 
@@ -52,16 +57,17 @@ impl UI {
         }
     }
 
-    pub fn change_tab(&mut self, tab: Tabs) {
-        self.current_tab = tab;
-    }
-
     pub fn set_position(&mut self, pos: usize) {
         self.position = pos;
     }
 
     pub fn render_tabs(&mut self) {
-        execute!(self.stdout, MoveTo(0, 1), terminal::Clear(terminal::ClearType::FromCursorUp)).unwrap();
+        execute!(
+            self.stdout,
+            MoveTo(0, 1),
+            terminal::Clear(terminal::ClearType::FromCursorUp)
+        )
+        .unwrap();
 
         let tabs = ["All", "Todo", " Done"];
 
@@ -80,33 +86,45 @@ impl UI {
     }
 
     pub fn render_list(&mut self, list: &Vec<String>) {
-        execute!(self.stdout, MoveTo(0, 1), terminal::Clear(terminal::ClearType::FromCursorDown)).unwrap();
+        execute!(
+            self.stdout,
+            MoveTo(0, 1),
+            terminal::Clear(terminal::ClearType::FromCursorDown)
+        )
+        .unwrap();
         for (i, item) in list.iter().enumerate() {
             let line_number = i as u16;
-    
+
             if self.position == i {
-                execute!(self.stdout, SetBackgroundColor(Color::White), SetForegroundColor(Color::Black)).unwrap();
+                execute!(
+                    self.stdout,
+                    SetBackgroundColor(Color::White),
+                    SetForegroundColor(Color::Black)
+                )
+                .unwrap();
             }
-    
+
             execute!(self.stdout, MoveTo(1, line_number + 2), Print(item)).unwrap();
-    
+
             if self.position == i {
                 execute!(self.stdout, ResetColor).unwrap();
             }
         }
     }
-    
-    pub fn handle_input(&mut self, input: Input) {
+
+    pub fn handle_input(&mut self, input: Input, len: usize) {
         match input {
             Input::Up => {
                 if self.position > 0 {
                     self.position -= 1;
                 }
-            },
+            }
             Input::Down => {
-                self.position += 1;
-            },
-            _ => {},
+                if self.position + 1 < len {
+                    self.position += 1;
+                }
+            }
+            _ => {}
         }
     }
 }
