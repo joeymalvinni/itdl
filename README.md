@@ -1,9 +1,17 @@
 ![Example of terminal ](assets/terminal.png)
 
-# Todo.rs
+# ITDL: Interactive Todo List
 An interactive Todo list CLI tool written in Rust.
 
 ## Installation
+
+```bash
+cargo install itd
+```
+
+## Building
+
+To build and run yourself, you can clone the Github repository.
 
 ```bash
 git clone https://github.com/joeymalvinni/todo.git
