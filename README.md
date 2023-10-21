@@ -14,6 +14,7 @@ Run using `cargo run`.
 
 ## Todo
 
+- [ ] Edit existing list item using 'i'
 - [ ] Move around in insert mode using Left and Right arrow keys
 - [ ] Settings edit to use unicode or markdown
 - [ ] Colors (?)
